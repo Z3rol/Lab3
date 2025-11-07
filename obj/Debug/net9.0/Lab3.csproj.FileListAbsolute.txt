@@ -1,0 +1,14 @@
+/Users/denis/Desktop/Archived/Lab3/bin/Debug/net9.0/Lab3
+/Users/denis/Desktop/Archived/Lab3/bin/Debug/net9.0/Lab3.deps.json
+/Users/denis/Desktop/Archived/Lab3/bin/Debug/net9.0/Lab3.runtimeconfig.json
+/Users/denis/Desktop/Archived/Lab3/bin/Debug/net9.0/Lab3.dll
+/Users/denis/Desktop/Archived/Lab3/bin/Debug/net9.0/Lab3.pdb
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.GeneratedMSBuildEditorConfig.editorconfig
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.AssemblyInfoInputs.cache
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.AssemblyInfo.cs
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.csproj.CoreCompileInputs.cache
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.dll
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/refint/Lab3.dll
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.pdb
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/Lab3.genruntimeconfig.cache
+/Users/denis/Desktop/Archived/Lab3/obj/Debug/net9.0/ref/Lab3.dll
