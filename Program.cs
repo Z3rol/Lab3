@@ -72,11 +72,38 @@ namespace Lab3
         }
         static void Main(string[] args)
         {
-            Console.Write("Введіть число: ");
-            int n = int.Parse(Console.ReadLine());
+            bool isRunning = true;
 
-            Console.WriteLine($"Вивожу всі числа армстронга в диапазоні [2, {n}]");
-            PrintAllArmstrongNumbers(n);
+            Console.Clear();
+
+            do
+            {
+                Console.Write("Введіть число: ");
+
+                if (int.TryParse(Console.ReadLine(), out int n))
+                {
+                    bool validNumber = false;
+
+                    do
+                    {
+                        if (n >= 2)
+                        {
+                            Console.WriteLine($"Вивожу всі числа армстронга в диапазоні [2, {n}]");
+                            PrintAllArmstrongNumbers(n);
+
+                            isRunning = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Число повинне бути не меньше ніж 2");
+                        }
+                    } while (validNumber = false);
+                }
+                else
+                {
+                    Console.WriteLine("Невірне введення.");
+                }
+            } while (isRunning);
         }
     }
 }
