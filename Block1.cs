@@ -52,7 +52,7 @@ namespace Lab3
             // Handle wrong starting position
             if (startIndex < 0 || startIndex >= arr.Length)
             {
-                Console.WriteLine("Error: deletion range is out of bounds.");
+                Console.WriteLine("Error: starting position is out of bounds.");
                 return null;
             }
 
