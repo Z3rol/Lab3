@@ -17,12 +17,20 @@ namespace Lab3
             {
                 // Prints prompt and reads a number
                 Console.Write($"{message} ({min}-{max} or {quitCommand} to go back): ");
-                string input = Console.ReadLine()?.Trim().ToLower() ?? "";
+                string? input = Console.ReadLine()?.Trim().ToLower();
 
-                if (input == quitCommand)
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Error: invalid format");
+                    continue;
+                }
+                else if (input == quitCommand)
+                {
+                    Console.WriteLine("Returning...");
                     return null;
+                }
 
-                // Validate the range and numeric format
+                // Validate the range numeric format
                 if (int.TryParse(input, out int result))
                 {
                     if (result >= min && result <= max)
@@ -31,7 +39,7 @@ namespace Lab3
                         Console.WriteLine($"Error: number must be in range {min}-{max}");
                 }
                 else
-                    Console.WriteLine("Error: wrong input");
+                    Console.WriteLine("Error: input is not a valid number");                
             }
         }
 
@@ -53,14 +61,14 @@ namespace Lab3
                 string? input = Console.ReadLine()?.Trim().ToLower();
 
                 // Handle null and quitCommand input
-                if (input == null)
+                if (string.IsNullOrWhiteSpace(input))
                 {
                     Console.WriteLine("Error: invalid format");
                     continue;
                 }
                 else if (input == quitCommand)
                 {
-                    Console.WriteLine("Returning to the previous task...");
+                    Console.WriteLine("Returning...");
                     return null;
                 }
 
@@ -105,7 +113,7 @@ namespace Lab3
         {
             while (true)
             {
-                // Get valid size for the jagged array
+                // Get valid size for the jagged array (1-10)
                 int? size = GetValidInt("Enter the number of arrays", 1, 10);
 
                 // If the size wasn't entered, ask if user wants to re-enter or to stop the program
@@ -147,6 +155,7 @@ namespace Lab3
 
                     // If valid array entered => fill
                     jagArr[currentRow] = temp;
+                    currentRow++;
                 }
 
                 return jagArr;
@@ -205,6 +214,23 @@ namespace Lab3
             return arr;
         }
 
+        /// <summary>
+        /// Generetes a random jagged array of chosen size
+        /// </summary>
+        /// <param name="numberOfRows">The number of subarrays for jagged array to be generated</param>
+        /// <param name="minNumberOfElements">Minimum number of elements each subarray can have</param>
+        /// <param name="maxNumberOfelements">Maximum number of elements each subarray can have</param>
+        /// <param name="minValue">Minimum value each number can have</param>
+        /// <param name="maxValue">Maximum value each number can have</param>
+        /// <returns>Randomly generated jagged array of {numberOfRows} size</returns>
+        public static int[][] GenerateRandomIntJagArr(int numberOfRows, int minNumberOfElements, int maxNumberOfelements, int minValue = int.MinValue, int maxValue = int.MaxValue)
+        {
+            int[][] arr = new int[numberOfRows][];
 
+            for (int i = 0; i < numberOfRows; i++)
+                arr[i] = GenerateRandomIntArr(Random.Shared.Next(minNumberOfElements, maxNumberOfelements + 1), minValue, maxValue) ?? [];
+
+            return arr;
+        }
     }
 }
