@@ -1,13 +1,12 @@
 namespace Lab3
 {
-    internal class Block1
+    public class Block1
     {
         /// <summary>
-        /// Loop: until 2 valid numbers are entered, or quit
+        /// Loop: until 2 valid numbers are entered
         /// </summary>
-        /// <param name="quitCommand">Stops the loop if entered</param>
-        /// <returns>tuple of 2 integers. null if quit</returns>
-        internal static (int T, int K)? GetRequiredData(string quitCommand = "q")
+        /// <returns>tuple of 2 integers</returns>
+        public static (int T, int K) GetRequiredData()
         {
             int? T = null;
             int? K = null;
@@ -20,18 +19,11 @@ namespace Lab3
                 if (K == null)
                     K = Functions.GetValidInt("Enter the starting position");
 
-                // Handles any incorrect values and quit case
-                // Allow user to re-enter or leave
+                // Handles any incorrect values and asks to re-enter
                 if (T == null || K == null)
                 {
-                    bool? answer = Functions.GetConfirmation("One of the numbers was not entered correctly. Try again?");
-
-                    if (answer == null || answer == false)
-                    {
-                        Console.WriteLine("Returning...");
-                        return null;
-                    }
-                    else continue;
+                    Console.WriteLine("Error: one of the numbers wasn't entered corecctly. Try again");
+                    continue;
                 }
 
                 return (T.Value, K.Value);
@@ -45,18 +37,19 @@ namespace Lab3
         /// <param name="T">Number of elements to delete</param>
         /// <param name="K">Starting position</param>
         /// <returns>Bool based on whether the task was completed</returns>
-        internal static bool TryDeleteArrayElements(ref int[] arr, int T, int K)
+        public static bool TryDeleteArrayElements(ref int[] arr, int T, int K)
         {
             // Handle empty array
             if (arr.Length == 0)
             {
-                Console.WriteLine("Error: cannot work with an empty array");
+                Console.WriteLine("Error: cannot delete elements from an empty array");
                 return false;
             }
+
             // Transform starting position to 0-based
             int startIndex = K - 1;
 
-            // Handle wrong starting position
+            // Handle starting position being ouside the array
             if (startIndex < 0 || startIndex >= arr.Length)
             {
                 Console.WriteLine("Error: starting position is out of bounds.");
@@ -69,11 +62,11 @@ namespace Lab3
 
             int[] result = new int[arr.Length - T];
 
-            // Copy all elements before the deleted ones
+            // Copy all elements before the deleted ones if any
             for (int i = 0; i < startIndex; i++)
                 result[i] = arr[i];
 
-            // Copy all elements after the deleted ones
+            // Copy all elements after the deleted ones if any
             for (int i = startIndex; i < result.Length; i++)
                 result[i] = arr[i + T];
 
@@ -82,23 +75,44 @@ namespace Lab3
         }
 
         /// <summary>
-        /// Tries to get required values, if all succeds - deletes rows from array, otherwise - quits
+        /// Loops until succed or user quit. Gets required data and tries to remove elements
         /// </summary>
         /// <param name="arr">Array from which elements will be deleted</param>
-        internal static void Run(ref int[] arr)
+        public static void Run(ref int[] arr)
         {
-            // Try get required tuple of required integers
-            var data = GetRequiredData();
+            // Handle empty array
+            if(arr.Length == 0)
+            {
+                Console.WriteLine("Cannot work with empty arrays");
+                return;
+            }
 
-            // Handle quit case
-            if (data == null) return;
+            bool isRunning = true;
+            while (isRunning)
+            {
+                // Try get tuple of required integers
+                var data = GetRequiredData();
 
-            // Deletes elements, if both values are good
-            bool success = TryDeleteArrayElements(ref arr, data.Value.T, data.Value.K);
+                // Deletes elements, if both values are valid
+                bool success = TryDeleteArrayElements(ref arr, data.T, data.K);
 
-            // Print success message
-            if (success)
-                Console.WriteLine("Elements deleted successfully");
+                // If success print success message and quit, otherwise ask to retry
+                if (success)
+                {
+                    Console.WriteLine("Elements deleted successfully");
+                    isRunning = false;
+                }
+                else
+                {
+                    bool retryChoice = Functions.GetConfirmation("Try again");
+
+                    // If user wants to retry => continue, otherwise quit
+                    if (retryChoice)
+                        continue;
+                    else
+                        isRunning = false;
+                }
+            }
         }
     }
 }

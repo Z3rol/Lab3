@@ -4,39 +4,39 @@ namespace Lab3
     {
         /// <summary>
         /// Loop: Read a number. Validate the range and numeric format.
-        /// Stops if quitCommand is entered.
         /// </summary>
         /// <param name="message">Printed prompt</param>
-        /// <param name="min">Minimum number</param>
-        /// <param name="max">Maximum number</param>
-        /// <param name="quitCommand">Stops the loop if entered</param>
-        /// <returns>int. null if was quit</returns>
-        public static int? GetValidInt(string message, int min = int.MinValue, int max = int.MaxValue, string quitCommand = "q")
+        /// <param name="min">Min value a number can have</param>
+        /// <param name="max">Max valu a number can have</param>
+        /// <returns>Formatted number</returns>
+        public static int GetValidInt(string message, int min = int.MinValue, int max = int.MaxValue)
         {
+            // Loop until valid int in range is entered
             while (true)
             {
-                // Prints prompt and reads a number
-                Console.Write($"{message} ({min}-{max} or {quitCommand} to go back): ");
-                string? input = Console.ReadLine()?.Trim().ToLower();
+                // Print prompt, hide range if wasnt changed
+                if (min == int.MinValue && max == int.MaxValue)
+                    Console.Write($"{message}: ");
+                else
+                    Console.Write($"{message} ({min}-{max}): ");
 
+                // Read input, null safe
+                string? input = Console.ReadLine();
+
+                // Handle invalid input
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     Console.WriteLine("Error: invalid format");
                     continue;
                 }
-                else if (input == quitCommand)
-                {
-                    Console.WriteLine("Returning...");
-                    return null;
-                }
 
-                // Validate the range numeric format
+                // Validate the range and numeric format
                 if (int.TryParse(input, out int result))
                 {
                     if (result >= min && result <= max)
                         return result;
                     else
-                        Console.WriteLine($"Error: number must be in range {min}-{max}");
+                        Console.WriteLine($"Error: number must be in range ({min}-{max})");
                 }
                 else
                     Console.WriteLine("Error: input is not a valid number");                
@@ -45,31 +45,24 @@ namespace Lab3
 
         /// <summary>
         /// Loop: Read a line of elements. Validate the length and numeric format.
-        /// Stops if quitCommand is entered
         /// </summary>
         /// <param name="message">Printed prompt</param>
         /// <param name="minLength">Minimum number of elements</param>
         /// <param name="maxLength">Maximum number of elements</param>
-        /// <param name="quitCommand">Stops the loop if entered</param>
-        /// <returns>int[] array. null if was quit</returns>
-        public static int[]? GetValidIntArray(string message, int minLength = 1, int maxLength = 100, string quitCommand = "q")
+        /// <returns>Valid int[]</returns>
+        public static int[] GetValidIntArray(string message, int minLength = 1, int maxLength = 100)
         {
             while (true)
             {
                 // Print prompt and read a line
-                Console.Write($"{message} ({minLength}-{maxLength} length, or {quitCommand} to go back): ");
-                string? input = Console.ReadLine()?.Trim().ToLower();
+                Console.Write($"{message} (length: {minLength}-{maxLength}): ");
+                string? input = Console.ReadLine();
 
-                // Handle null and quitCommand input
+                // Handle invalid input
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     Console.WriteLine("Error: invalid format");
                     continue;
-                }
-                else if (input == quitCommand)
-                {
-                    Console.WriteLine("Returning...");
-                    return null;
                 }
 
                 // Split input
@@ -86,7 +79,7 @@ namespace Lab3
                 int[] arr = new int[splitInput.Length];
                 bool allNumbersParsed = true;
 
-                // Parses all numbers. Prints error message and restarts the loop on fail
+                // Parses all numbers. Prints error message and restarts if fail
                 for (int i = 0; i < splitInput.Length; i++)
                 {
                     if (!int.TryParse(splitInput[i], out arr[i]))
@@ -104,76 +97,34 @@ namespace Lab3
         }
 
         /// <summary>
-        /// Loop: tries to get a jagged array.
+        /// Read jagged array.
         /// </summary>
-        /// <param name="message">Printed prompt</param>
-        /// <param name="quitCommand">Command to stop the loop</param>
-        /// <returns>jagged array, null if user quit</returns>
-        public static int[][]? ReadJaggedArray(string message, string quitCommand = "q")
+        /// <returns>jagged int array</returns>
+        public static int[][] GetValidJagIntArr()
         {
-            while (true)
-            {
-                // Get valid size for the jagged array (1-10)
-                int? size = GetValidInt("Enter the number of arrays", 1, 10);
+            // Get valid size for the jagged array (1-10)
+            int size = GetValidInt("Enter the number of rows", 1, 10);
+            
+            int[][] jagArr = new int[size][];
 
-                // If the size wasn't entered, ask if user wants to re-enter or to stop the program
-                if (size == null)
-                {
-                    bool? answer = GetConfirmation("Number of arrays wasn't entered. Try again?");
-                    if (answer == false || answer == null)
-                    {
-                        Console.WriteLine("Returning...");
-                        return null;
-                    }
-                    else
-                        continue;
-                }
-                
-                // Counter for how many valid rows were already entered
-                int currentRow = 0;
-                int[][] jagArr = new int[(int) size][];
+            // Loops until the jagged array was filled
+            for (int i = 0; i < size; i++)
+                jagArr[i] = GetValidIntArray($"Enter row №{i}");
 
-                // Loops until the jagged array was filled, or user quit
-                // For loop isn't valid here, because on some iterations no array will be entered
-                while (currentRow < size)
-                {
-                    // Temporarily store the array to prevent null exception
-                    int[]? temp = GetValidIntArray($"Enter the row №{currentRow}");
-
-                    // If valid array wasn't entered, ask if the user wants to re-enter or to stop the program
-                    if (temp == null)
-                    {
-                        bool? answer = GetConfirmation($"The row №{currentRow} wasn't entered correctly. Try again?");
-                        if (answer == null || answer == false)
-                        {
-                            Console.WriteLine("Returning...");
-                            return null;
-                        }
-                        else
-                            continue;
-                    }
-
-                    // If valid array entered => fill
-                    jagArr[currentRow] = temp;
-                    currentRow++;
-                }
-
-                return jagArr;
-            }
+            return jagArr;
         }
 
         /// <summary>
-        /// Loop: Read input. Tries to get yes/no
+        /// Loop: Read input until yes/no is entered
         /// </summary>
         /// <param name="message">Printed Prompt</param>
-        /// <param name="quitCommand">Stops the loop if entered</param>
-        /// <returns>bool. null if was quit</returns>
-        public static bool? GetConfirmation(string message, string quitCommand = "q")
+        /// <returns>Bool</returns>
+        public static bool GetConfirmation(string message)
         {
             while (true)
             {
                 // Print prompt and read input
-                Console.Write($"{message} (yes/no) or \"{quitCommand}\" to quit: ");
+                Console.Write($"{message} (yes/no): ");
                 string? input = Console.ReadLine()?.Trim().ToLower();
 
                 // Handle invalid input and quitCommand input
@@ -181,11 +132,6 @@ namespace Lab3
                 {
                     Console.WriteLine("Error: invalid input");
                     continue;
-                }
-                if (input == quitCommand)
-                {
-                    Console.WriteLine("Returning to the previous task...");
-                    return null;
                 }
 
                 // Check input, return bool if input == yes or no, otherwise continue
@@ -223,7 +169,7 @@ namespace Lab3
         /// <param name="minValue">Minimum value each number can have</param>
         /// <param name="maxValue">Maximum value each number can have</param>
         /// <returns>Randomly generated jagged array of {numberOfRows} size</returns>
-        public static int[][] GenerateRandomIntJagArr(int numberOfRows, int minNumberOfElements, int maxNumberOfelements, int minValue = int.MinValue, int maxValue = int.MaxValue)
+        public static int[][] GenerateRandomJagIntArr(int numberOfRows, int minNumberOfElements, int maxNumberOfelements, int minValue = int.MinValue, int maxValue = int.MaxValue)
         {
             int[][] arr = new int[numberOfRows][];
 
@@ -231,6 +177,25 @@ namespace Lab3
                 arr[i] = GenerateRandomIntArr(Random.Shared.Next(minNumberOfElements, maxNumberOfelements + 1), minValue, maxValue) ?? [];
 
             return arr;
+        }
+
+        /// <summary>
+        /// Prints all numbers of arr space-split
+        /// </summary>
+        /// <param name="arr"></param>
+        public static void PrintIntArr(int[] arr)
+        {
+            Console.WriteLine(string.Join(' ', arr));
+        }
+
+        /// <summary>
+        /// Prints all elements of each row of jagArr space-split
+        /// </summary>
+        /// <param name="jagArr"></param>
+        public static void PrintJagIntArr(int[][] jagArr)
+        {
+            for (int i = 0; i < jagArr.Length; i++)
+                Console.WriteLine(string.Join(' ', jagArr[i]));
         }
     }
 }

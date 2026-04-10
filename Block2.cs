@@ -1,6 +1,6 @@
 namespace Lab3
 {
-    internal class Block2
+    public class Block2
     {
         /// <summary>
         /// Adds an empty row after each even row, overwrites the array
@@ -48,14 +48,35 @@ namespace Lab3
             return true;
         }
 
-        internal static void Run(ref int[][] arr)
+        /// <summary>
+        /// Loops until succed or user quit. Tries to add new rows into jagged array
+        /// </summary>
+        /// <param name="arr"></param>
+        public static void Run(ref int[][] arr)
         {
-            bool success = TryAddEmptyRowAfterEveryEvenIndex(ref arr);
+            bool isRunning = true;
+            while (isRunning)
+            {
+                // Try add new rows
+                bool success = TryAddEmptyRowAfterEveryEvenIndex(ref arr);
+                
+                // If success print success message and quit, otherwise ask to retry
+                if (success)
+                {
+                    Console.WriteLine("Succesfully added new rows");
+                    isRunning = false;
+                }
+                else
+                {
+                    bool retryChoice = Functions.GetConfirmation("Try again");
 
-            if (success)
-                Console.WriteLine("Successfully adden new rows");
-            else
-                Console.WriteLine("No rows were added");
+                    // If user wants to retry => continue, otherwise quit
+                    if (retryChoice)
+                        continue;
+                    else
+                        isRunning = false;
+                }
+            }
         }
     }
 }
