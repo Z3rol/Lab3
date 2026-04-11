@@ -31,12 +31,12 @@ namespace Lab3
         }
 
         /// <summary>
-        /// Deletes T elements starting from K-1 index in the passed array Directly.
+        /// Deletes T elements starting from K-1 index in the passed array.
         /// </summary>
         /// <param name="arr">Array to delete elemenets from</param>
         /// <param name="T">Number of elements to delete</param>
         /// <param name="K">Starting position</param>
-        /// <returns>Bool based on whether the task was completed</returns>
+        /// <returns>Determines whether the task was completed</returns>
         public static bool TryDeleteArrayElements(ref int[] arr, int T, int K)
         {
             // Handle empty array
@@ -49,7 +49,7 @@ namespace Lab3
             // Transform starting position to 0-based
             int startIndex = K - 1;
 
-            // Handle starting position being ouside the array
+            // Handle starting position being outside the array
             if (startIndex < 0 || startIndex >= arr.Length)
             {
                 Console.WriteLine("Error: starting position is out of bounds.");
@@ -60,17 +60,13 @@ namespace Lab3
             if (startIndex + T > arr.Length)
                 T = arr.Length - startIndex;
 
-            int[] result = new int[arr.Length - T];
+            // Move all non-deleted elements to the left to fill deleted ones
+            for (int i = startIndex; i < arr.Length - T; i++)
+                arr[i] = arr[i + T];
 
-            // Copy all elements before the deleted ones if any
-            for (int i = 0; i < startIndex; i++)
-                result[i] = arr[i];
+            // Shrink the array, deleting all removed elements
+            Array.Resize(ref arr, arr.Length - T);
 
-            // Copy all elements after the deleted ones if any
-            for (int i = startIndex; i < result.Length; i++)
-                result[i] = arr[i + T];
-
-            arr = result;
             return true;
         }
 
