@@ -39,20 +39,13 @@ namespace Lab3
         /// <returns>Determines whether the task was completed</returns>
         public static bool TryDeleteArrayElements(ref int[] arr, int T, int K)
         {
-            // Handle empty array
-            if (arr.Length == 0)
-            {
-                Console.WriteLine("Error: cannot delete elements from an empty array");
-                return false;
-            }
-
             // Transform starting position to 0-based
             int startIndex = K - 1;
 
             // Handle starting position being outside the array
             if (startIndex < 0 || startIndex >= arr.Length)
             {
-                Console.WriteLine("Error: starting position is out of bounds.");
+                Console.WriteLine("Error: starting position is outside the array.");
                 return false;
             }
 
@@ -71,7 +64,7 @@ namespace Lab3
         }
 
         /// <summary>
-        /// Loops until succed or user quit. Gets required data and tries to remove elements
+        /// Loops until success or user quits. Gets required data and tries to remove elements
         /// </summary>
         /// <param name="arr">Array from which elements will be deleted</param>
         public static void Run(ref int[] arr)
@@ -83,10 +76,11 @@ namespace Lab3
                 return;
             }
 
+            // Loop utntil success, or user quits
             bool isRunning = true;
             while (isRunning)
             {
-                // Try get tuple of required integers
+                // Try get tuple of required numbers
                 var data = GetRequiredData();
 
                 // Deletes elements, if both values are valid

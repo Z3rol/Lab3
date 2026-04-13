@@ -18,7 +18,10 @@ namespace Lab3
 
             // If no rows should be added => return immidiately
             if (rowsToAdd == 0)
-                return false;
+            {
+                
+                return false;        
+            }
 
             // Store the old length to calculate the index and length of the resized array
             int oldLength = arr.Length;
