@@ -19,20 +19,21 @@ namespace Lab3
             // If no rows should be added => return immidiately
             if (rowsToAdd == 0)
             {
-                
+                Console.WriteLine("No rows can be added");
                 return false;        
             }
 
             // Store the old length to calculate the index and length of the resized array
             int oldLength = arr.Length;
-            int newLength = arr.Length + rowsToAdd;
+            int newLength = oldLength + rowsToAdd;
 
             Array.Resize(ref arr, newLength);
 
             int oldIndex = oldLength - 1;
             int newIndex = newLength - 1;
 
-            // Loops through each row in the original array, add an empty line if the index is even
+            // Loops through each row in the original array, for each row that goes after an even index => copy it to the next row
+            // The previous position is filled with empty array
             while (oldIndex >= 0)
             {
                 // Index is even => add an empty row
