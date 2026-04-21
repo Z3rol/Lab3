@@ -6,28 +6,11 @@ namespace Lab3
         /// Loop: until 2 valid numbers are entered
         /// </summary>
         /// <returns>tuple of 2 integers</returns>
-        public static (int T, int K) GetRequiredData()
+        public static void GetRequiredData(out int T, out int K)
         {
-            int? T = null;
-            int? K = null;
-
-            while (true)
-            {
-                // Try to fill T and K with integres
-                if (T == null)
-                    T = Functions.GetValidInt("Enter the amount of elements to delete");
-                if (K == null)
-                    K = Functions.GetValidInt("Enter the starting position");
-
-                // Handles any incorrect values and asks to re-enter
-                if (T == null || K == null)
-                {
-                    Console.WriteLine("Error: one of the numbers wasn't entered corecctly. Try again");
-                    continue;
-                }
-
-                return (T.Value, K.Value);
-            }
+            // Fill data with valid numbers
+            T = Functions.GetValidInt("Enter the amount of elements to delete");
+            K = Functions.GetValidInt("Enter the starting position");
         }
 
         /// <summary>
@@ -81,10 +64,10 @@ namespace Lab3
             while (isRunning)
             {
                 // Try get tuple of required numbers
-                var data = GetRequiredData();
+                GetRequiredData(out int T, out int K);
 
                 // Deletes elements, if both values are valid
-                bool success = TryDeleteArrayElements(ref arr, data.T, data.K);
+                bool success = TryDeleteArrayElements(ref arr, T, K);
 
                 // If success print success message and quit, otherwise ask to retry
                 if (success)
