@@ -2,15 +2,14 @@ namespace Lab3
 {
     public class Block1
     {
-        /// <summary>
-        /// Loop: until 2 valid numbers are entered
-        /// </summary>
-        /// <returns>tuple of 2 integers</returns>
-        public static void GetRequiredData(out int T, out int K)
+        // Get tuple of valid numbers requrired for TryDeleteArrayElemenets
+        public static (int T, int K) GetRequiredData()
         {
             // Fill data with valid numbers
-            T = Functions.GetValidInt("Enter the amount of elements to delete");
-            K = Functions.GetValidInt("Enter the starting position");
+            int T = Functions.GetValidInt("Enter the amount of elements to delete");
+            int K = Functions.GetValidInt("Enter the starting position");
+
+            return (T, K);
         }
 
         /// <summary>
@@ -64,9 +63,9 @@ namespace Lab3
             while (isRunning)
             {
                 // Try get tuple of required numbers
-                GetRequiredData(out int T, out int K);
+                (int T, int K) = GetRequiredData();
 
-                // Deletes elements, if both values are valid
+                // Delete elements, if both values are valid
                 bool success = TryDeleteArrayElements(ref arr, T, K);
 
                 // If success print success message and quit, otherwise ask to retry
