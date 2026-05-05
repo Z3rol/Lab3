@@ -1,4 +1,4 @@
-namespace Lab3
+namespace Lab3.Denis
 {
     public class Block2
     {

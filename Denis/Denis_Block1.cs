@@ -1,4 +1,4 @@
-namespace Lab3
+namespace Lab3.Denis
 {
     public class Block1
     {
@@ -13,9 +13,6 @@ namespace Lab3
         /// <summary>
         /// Delete T elements starting from K-1 index in the passed array.
         /// </summary>
-        /// <param name="T">Number of elements to delete</param>
-        /// <param name="K">Starting position</param>
-        /// <returns>Execution status</returns>
         public static bool TryDeleteArrayElements(ref int[] arr, int T, int K)
         {
             int startIndex = K - 1;
