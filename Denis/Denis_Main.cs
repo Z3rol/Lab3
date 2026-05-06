@@ -2,45 +2,6 @@ namespace Lab3.Denis
 {
     public class Program
     {
-        public static void Start(int[]? arr, int[][]? jagArr)
-        {
-            Console.Clear();
-            Console.WriteLine("--- Lab 3 ---");
-
-            bool isRunning = true;
-            while (isRunning)
-            {
-
-                PrintHeader();
-                int choice = Functions.GetValidInt("Chose task", 0, 2);
-
-                switch (choice)
-                {
-                    case 1:
-                        ExecuteBlock1(ref arr, ref jagArr);
-                        break;
-
-                    case 2:
-                        ExecuteBlock2(ref jagArr);
-                        break;
-
-                    case 0:
-                    Console.WriteLine("Closing...");
-                        isRunning = false;
-                        break;
-                }
-            }
-        }
-
-        public static void PrintHeader()
-        {
-            Console.WriteLine(" 1. Delete T elements starting at index K from an array");
-            Console.WriteLine(" 2. Add an empty row after every row with even index in a jagged array");
-            Console.WriteLine(" 0. Close the program");
-        }
-
-
-
         public static void ExecuteBlock1(ref int[]? arr, ref int[][]? jagArr)
         {
             int arrayChoice = Functions.GetValidInt("Would u like to work on a single array, or on a subarray of jagged", 1, 2);
