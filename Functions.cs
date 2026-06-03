@@ -109,7 +109,7 @@ namespace Lab3
             int[][] arr = new int[numberOfRows][];
 
             for (int i = 0; i < numberOfRows; i++)
-                arr[i] = GenerateRandomIntArr(Random.Shared.Next(minNumberOfElements, maxNumberOfelements + 1), minValue, maxValue) ?? [];
+                arr[i] = GenerateRandomIntArr(Random.Shared.Next(minNumberOfElements, maxNumberOfelements + 1), minValue, maxValue);
 
             return arr;
         }
