@@ -7,28 +7,37 @@ namespace Lab3
         {
             while (true)
             {
-                if (min == int.MinValue && max == int.MaxValue)
-                    Console.Write($"{message}: ");
-                else
-                    Console.Write($"{message} ({min}-{max}): ");
+                Console.Write(
+                    (min == int.MinValue, max == int.MaxValue) switch
+                    {
+                        (true, true) => $"{message}: ",
+                        (true, false) => $"{message} ({min}+): ",
+                        (false, true)  => $"{message} ({min}+): ",
+                        (false, false) => $"{message} ({min}-{max}): "
+                    }
+                );
 
                 string? input = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Error: invalid format");
+                    Console.WriteLine("\nПомилка: введення не може бути пустим");
                     continue;
                 }
 
-                if (int.TryParse(input, out int result))
+                if (!int.TryParse(input, out int num))
                 {
-                    if (result >= min && result <= max)
-                        return result;
-                    else
-                        Console.WriteLine($"Error: number must be in range ({min}-{max})");
+                    Console.WriteLine("\nПомилка: Введено некоректне число");
+                    continue;
                 }
-                else
-                    Console.WriteLine("Error: input is not a valid number");                
+
+                if (num < min || num > max)
+                {
+                    Console.WriteLine($"\nПомилка: число виходить за межі ({min}-{max})");
+                    continue;
+                }
+
+                return num;
             }
         }
 
@@ -36,12 +45,12 @@ namespace Lab3
         {
             while (true)
             {
-                Console.Write($"{message} (length: {minLength}-{maxLength}): ");
+                Console.Write($"{message}: ");
                 string? input = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("Error: invalid format");
+                    Console.WriteLine("Помилка: введення не може бути пустим");
                     continue;
                 }
 
@@ -49,7 +58,7 @@ namespace Lab3
 
                 if (splitInput.Length < minLength || splitInput.Length > maxLength)
                 {
-                    Console.WriteLine("Error: invalid number of elements");
+                    Console.WriteLine($"Помилка: довжина виходить за межі ({minLength}-{maxLength})");
                     continue;
                 }
 
@@ -60,7 +69,7 @@ namespace Lab3
                 {
                     if (!int.TryParse(splitInput[i], out arr[i]))
                     {
-                        Console.WriteLine($"Error: {splitInput[i]} is not a valid number");
+                        Console.WriteLine($"Помилка: {splitInput[i]} не є числом");
                         allNumbersParsed = false;
                         break;
                     }
@@ -73,37 +82,16 @@ namespace Lab3
 
         public static int[][] GetValidJagIntArr()
         {
-            int size = GetValidInt("Enter the number of rows", 1, 10);
+            int size = GetValidInt("Введіть кількість рядків", 1, 10);
             
             int[][] jagArr = new int[size][];
 
             for (int i = 0; i < size; i++)
-                jagArr[i] = GetValidIntArray($"Enter row №{i}");
+                jagArr[i] = GetValidIntArray($"Введіть рядок №{i}");
 
             return jagArr;
         }
 
-        public static bool GetConfirmation(string message)
-        {
-            while (true)
-            {
-                Console.Write($"{message} (yes/no): ");
-                string? input = Console.ReadLine()?.Trim().ToLower();
-
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    Console.WriteLine("Error: invalid input");
-                    continue;
-                }
-
-                if (input == "yes")
-                    return true;
-                else if (input == "no")
-                    return false;
-                else
-                    Console.WriteLine($"Error: {input} is not a valid choice");
-            }
-        }
 
 
         // Array generation methods
@@ -116,7 +104,7 @@ namespace Lab3
             return arr;
         }
 
-        public static int[][] GenerateRandomJagIntArr(int numberOfRows, int minNumberOfElements, int maxNumberOfelements, int minValue = int.MinValue, int maxValue = int.MaxValue)
+        public static int[][] GenerateRandomJagIntArr(int numberOfRows, int minNumberOfElements = 0, int maxNumberOfelements = 100, int minValue = int.MinValue, int maxValue = int.MaxValue)
         {
             int[][] arr = new int[numberOfRows][];
 
@@ -128,11 +116,6 @@ namespace Lab3
 
 
         // Print methods
-        public static void PrintIntArr(int[] arr)
-        {
-            Console.WriteLine(string.Join(' ', arr));
-        }
-
         public static void PrintJagIntArr(int[][] jagArr)
         {
             for (int i = 0; i < jagArr.Length; i++)
