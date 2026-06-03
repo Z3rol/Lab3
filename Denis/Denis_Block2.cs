@@ -4,7 +4,7 @@ namespace Lab3.Denis
     {
         public static bool TryAddEmptyRowAfterEveryEvenIndex(ref int[][] arr)
         {
-            if (arr.Length == 0 || arr == null)
+            if (arr.Length == 0)
             {
                 Console.WriteLine("Помилка: масив пустий");
                 return false;

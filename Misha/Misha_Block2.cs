@@ -50,7 +50,7 @@ namespace Lab3.Misha
 
         public static void Run(ref int[][] arr)
         {
-            if (arr == null || arr.Length == 0)
+            if (arr.Length == 0)
             {
                 Console.WriteLine("Неможливо працювати з порожнім масивом.");
                 return;
