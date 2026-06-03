@@ -4,64 +4,42 @@ namespace Lab3.Denis
     {
         public static bool TryAddEmptyRowAfterEveryEvenIndex(ref int[][] arr)
         {
-            int rowsToAdd = 0;
+            if (arr.Length == 0 || arr == null)
+            {
+                Console.WriteLine("Помилка: масив пустий");
+                return false;
+            }
+
+            int rowsToAdd = (arr.Length + 1) / 2;
+            int[][] newArr = new int[arr.Length + rowsToAdd][];
+
+            int newIndex = 0;
+
             for (int i = 0; i < arr.Length; i++)
             {
+                newArr[newIndex] = arr[i];
+                newIndex++;
+
                 if (i % 2 == 0)
-                    rowsToAdd++;
-            }
-
-            if (rowsToAdd == 0)
-            {
-                Console.WriteLine("No rows can be added");
-                return false;        
-            }
-
-            int oldLength = arr.Length;
-            int newLength = oldLength + rowsToAdd;
-
-            Array.Resize(ref arr, newLength);
-
-            int oldIndex = oldLength - 1;
-            int newIndex = newLength - 1;
-
-            while (oldIndex >= 0)
-            {
-                if (oldIndex % 2 == 0)
                 {
-                    arr[newIndex] = new int[0];
-                    newIndex--;
+                    newArr[newIndex] = [];
+                    newIndex++;
                 }
-            
-                arr[newIndex] = arr[oldIndex];
-                oldIndex--;
-                newIndex--;
             }
 
+            arr = newArr;
             return true;
         }
 
         public static void Run(ref int[][] arr)
         {
-            bool isRunning = true;
-            while (isRunning)
+            bool success = TryAddEmptyRowAfterEveryEvenIndex(ref arr);
+            
+            if (success)
             {
-                bool success = TryAddEmptyRowAfterEveryEvenIndex(ref arr);
-                
-                if (success)
-                {
-                    Console.WriteLine("Succesfully added new rows");
-                    isRunning = false;
-                }
-                else
-                {
-                    bool retryChoice = Functions.GetConfirmation("Try again");
-
-                    if (retryChoice)
-                        continue;
-                    else
-                        isRunning = false;
-                }
+                Console.WriteLine("\nУспішно додано нові рядки");
+                Console.WriteLine("Оновлений масив: ");
+                Functions.PrintJagIntArr(arr);
             }
         }
     }
